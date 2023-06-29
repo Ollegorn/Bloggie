@@ -11,6 +11,9 @@
         <h1>Blog Posts</h1>
     </div>
 </div>
+
+@if (Model.BlogPosts != null && Model.BlogPosts.Any())
+{
 <div class="container">
     <table class="table">
         <thead>
@@ -32,3 +35,10 @@
         </tbody>
     </table>
 </div>
+}
+else
+{
+    <div class="container">
+        <p>No Blog Posts Found</p>
+    </div>
+}

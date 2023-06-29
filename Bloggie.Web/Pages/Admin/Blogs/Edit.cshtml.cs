@@ -17,14 +17,14 @@ namespace Bloggie.Web.Pages.Admin.Blogs
             this.bloggieDbContext = bloggieDbContext;
         }
 
-        public void OnGet(Guid id)
+        public async Task OnGet(Guid id)
         {
-             BlogPost = bloggieDbContext.BlogPosts.Find(id);
+             BlogPost = await bloggieDbContext.BlogPosts.FindAsync(id);
             
         }
-        public IActionResult OnPostEdit()
+        public async Task<IActionResult> OnPostEdit()
         {
-            var existingBlogPost = bloggieDbContext.BlogPosts.Find(BlogPost.Id);
+            var existingBlogPost = await bloggieDbContext.BlogPosts.FindAsync(BlogPost.Id);
 
             if (existingBlogPost != null)
             {
@@ -38,17 +38,17 @@ namespace Bloggie.Web.Pages.Admin.Blogs
                 existingBlogPost.Author = BlogPost.Author;
                 existingBlogPost.Visible = BlogPost.Visible;
             }
-            bloggieDbContext.SaveChanges();
+            await bloggieDbContext.SaveChangesAsync();
             return RedirectToPage("/Admin/Blogs/List");
         }
-        public IActionResult OnPostDelete()
+        public async Task<IActionResult> OnPostDelete()
         {
-            var existingBlog = bloggieDbContext.BlogPosts.Find(BlogPost.Id);
+            var existingBlog = await bloggieDbContext.BlogPosts.FindAsync(BlogPost.Id);
 
             if (existingBlog != null )
             {
                 bloggieDbContext.BlogPosts.Remove(existingBlog);
-                bloggieDbContext.SaveChanges();
+                await bloggieDbContext.SaveChangesAsync();
 
                 return RedirectToPage("/Admin/Blogs/List");
             }

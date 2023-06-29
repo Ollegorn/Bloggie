@@ -19,7 +19,7 @@ namespace Bloggie.Web.Pages.Admin.Blogs
         public void OnGet()
         {
         }
-        public IActionResult OnPost() 
+        public async Task<IActionResult> OnPost() 
         {
             var blogPost = new BlogPost()
             {
@@ -33,8 +33,8 @@ namespace Bloggie.Web.Pages.Admin.Blogs
                 Author = AddBlogPostRequest.Author,
                 Visible = AddBlogPostRequest.Visible
             };
-            _bloggieDbContext.BlogPosts.Add(blogPost);
-            _bloggieDbContext.SaveChanges();
+            await _bloggieDbContext.BlogPosts.AddAsync(blogPost);
+            await _bloggieDbContext.SaveChangesAsync();
 
             return RedirectToPage("/Admin/Blogs/List");
         }
