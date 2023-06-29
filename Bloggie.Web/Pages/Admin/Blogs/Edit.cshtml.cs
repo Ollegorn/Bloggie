@@ -22,7 +22,7 @@ namespace Bloggie.Web.Pages.Admin.Blogs
              BlogPost = bloggieDbContext.BlogPosts.Find(id);
             
         }
-        public IActionResult OnPost()
+        public IActionResult OnPostEdit()
         {
             var existingBlogPost = bloggieDbContext.BlogPosts.Find(BlogPost.Id);
 
@@ -40,6 +40,19 @@ namespace Bloggie.Web.Pages.Admin.Blogs
             }
             bloggieDbContext.SaveChanges();
             return RedirectToPage("/Admin/Blogs/List");
+        }
+        public IActionResult OnPostDelete()
+        {
+            var existingBlog = bloggieDbContext.BlogPosts.Find(BlogPost.Id);
+
+            if (existingBlog != null )
+            {
+                bloggieDbContext.BlogPosts.Remove(existingBlog);
+                bloggieDbContext.SaveChanges();
+
+                return RedirectToPage("/Admin/Blogs/List");
+            }
+            return Page(); 
         }
     }
 }
