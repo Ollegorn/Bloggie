@@ -4,6 +4,7 @@ using Bloggie.Web.Models.ViewModels;
 using Bloggie.Web.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text.Json;
 
 namespace Bloggie.Web.Pages.Admin.Blogs
 {
@@ -20,7 +21,7 @@ namespace Bloggie.Web.Pages.Admin.Blogs
         public void OnGet()
         {
         }
-        public async Task<IActionResult> OnPost() 
+        public async Task<IActionResult> OnPost()
         {
             var blogPost = new BlogPost()
             {
@@ -34,9 +35,15 @@ namespace Bloggie.Web.Pages.Admin.Blogs
                 Author = AddBlogPostRequest.Author,
                 Visible = AddBlogPostRequest.Visible
             };
-             await blogPostRepository.AddAsync(blogPost);
+            await blogPostRepository.AddAsync(blogPost);
 
-            TempData["MessageDescription"] = "New Blog Post Succesfully Created";
+            var notification = new Notification
+            {
+                Type = Enums.NotificationType.Success,
+                Message = "New blog created!"
+            };
+
+            TempData["Notification"] = JsonSerializer.Serialize(notification);
 
             return RedirectToPage("/Admin/Blogs/List");
         }
