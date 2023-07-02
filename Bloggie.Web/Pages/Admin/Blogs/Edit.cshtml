@@ -86,10 +86,11 @@
                     </label>
                 </div>
 
-                <div class="mb-3 d-flex justify-content-between">
+                <div class="mb-3 d-flex">
                     <button class="btn btn-primary" type="submit" asp-page-handler="Edit">Submit</button>
+                    <a asp-page="/admin/blogs/list" class="btn btn-secondary ms-2">Back to List</a>
 
-                    <button class="btn btn-danger" type="submit" asp-page-handler="Delete">Delete</button>
+                    <button class="btn btn-danger ms-2" type="submit" asp-page-handler="Delete">Delete</button>
                 </div>
 
             </form>
