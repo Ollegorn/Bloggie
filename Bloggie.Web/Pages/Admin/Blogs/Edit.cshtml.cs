@@ -38,23 +38,32 @@ namespace Bloggie.Web.Pages.Admin.Blogs
         public async Task<IActionResult> OnPostEdit()
         {
             try
-            {
-                BlogPost.Tags = new List<Tag>(Tags.Split(',').Select(x => new Tag() { Name = x.Trim() }));
-
-                await blogPostRepository.UpdateAsync(BlogPost);
-
-                ViewData["Notification"] = new Notification
+            { 
+                if (BlogPost.Tags != null && BlogPost.Tags.Any())
                 {
-                    Message = "Record updated successfully!",
-                    Type = Enums.NotificationType.Success
-                };
+
+
+                    BlogPost.Tags = new List<Tag>(Tags.Split(',').Select(x => new Tag() { Name = x.Trim() }));
+
+                    await blogPostRepository.UpdateAsync(BlogPost);
+
+                    ViewData["Notification"] = new Notification
+                    {
+                        Message = "Record updated successfully!",
+                        Type = Enums.NotificationType.Success
+                    };
+                }
+                else
+                {
+                    throw new Exception();
+                }
             }
-            catch (Exception ex)
+            catch (Exception empty)
             {
 
                 ViewData["Notification"] = new Notification
                 {
-                    Message = "Something went wrong",
+                    Message = "Tags cannot be empty",
                     Type = Enums.NotificationType.Error
                 };
             }
