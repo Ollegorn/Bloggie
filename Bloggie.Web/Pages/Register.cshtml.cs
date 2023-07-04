@@ -32,7 +32,7 @@ namespace Bloggie.Web.Pages
 
             if (identityResult.Succeeded)
             {
-                var addRolesResult = await userManager.AddToRolesAsync(user, "User");
+                var addRolesResult = await userManager.AddToRoleAsync(user, "User");
 
                 if (addRolesResult.Succeeded)
                 {
