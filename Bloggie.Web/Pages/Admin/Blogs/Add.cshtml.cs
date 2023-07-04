@@ -9,7 +9,7 @@ using System.Text.Json;
 
 namespace Bloggie.Web.Pages.Admin.Blogs
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AddModel : PageModel
     {
         private readonly IBlogPostRepository blogPostRepository;
