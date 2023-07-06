@@ -78,10 +78,14 @@
                                 </div>
                             </form>
                         }
+                        else
+                        {
+                            <h6 class="text-secondary">Login to see comments and comment!</h6>
+                        }
 
                     </div>
                     <div class="card-body">
-                        @if (Model.Comments !=null && Model.Comments.Any())
+                        @if (Model.Comments != null && Model.Comments.Any())
                         {
                             @foreach (var comment in Model.Comments)
                             {
@@ -102,7 +106,6 @@
                         {
                             <p>No comments yet</p>
                         }
-
                     </div>
                 </div>
 
