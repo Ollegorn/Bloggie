@@ -1,12 +1,14 @@
 using Azure.Identity;
 using Bloggie.Web.Models.ViewModels;
 using Bloggie.Web.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Bloggie.Web.Pages.Admin.Users
 {
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         private readonly IUserRepository userRepository;
@@ -14,6 +16,8 @@ namespace Bloggie.Web.Pages.Admin.Users
         public List<User> Users { get; set; }
         [BindProperty]
         public AddUser AddUserRequest { get; set; }
+        [BindProperty]
+        public Guid SelectedUserId { get; set; }
         public IndexModel(IUserRepository userRepository)
         {
             this.userRepository = userRepository;
@@ -57,6 +61,11 @@ namespace Bloggie.Web.Pages.Admin.Users
             }
 
             return Page();
+        }
+        public async Task<IActionResult> OnPostDelete()
+        {
+            await userRepository.Delete(SelectedUserId);
+            return RedirectToPage("/Admin/Users/Index");
         }
     }
 }
