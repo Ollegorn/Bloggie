@@ -20,8 +20,12 @@ namespace Bloggie.Web.Pages
         public void OnGet()
         {
         }
-        public async Task<IActionResult> OnPost(string ReturnUrl)
+        public async Task<IActionResult> OnPost(string? ReturnUrl)
         {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
            var signInResult = await signInManager.PasswordSignInAsync(
                 LoginViewModel.Username, LoginViewModel.Password, false, false);
 
