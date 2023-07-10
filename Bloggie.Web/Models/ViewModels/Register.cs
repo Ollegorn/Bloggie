@@ -8,9 +8,9 @@ namespace Bloggie.Web.Models.ViewModels
         public string Username { get; set; }
         [Required]
         [EmailAddress]
-        public string Password { get; set; }
+        public string Email { get; set; }
         [Required]
         [MinLength(6)]
-        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }
