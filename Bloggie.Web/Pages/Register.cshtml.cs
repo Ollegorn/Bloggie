@@ -22,6 +22,10 @@ namespace Bloggie.Web.Pages
 
         public async Task<IActionResult> OnPost() 
         {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
             var user = new IdentityUser
             {
                 UserName = RegisterViewModel.Username,
