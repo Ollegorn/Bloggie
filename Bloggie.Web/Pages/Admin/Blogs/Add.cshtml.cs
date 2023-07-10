@@ -5,6 +5,8 @@ using Bloggie.Web.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 namespace Bloggie.Web.Pages.Admin.Blogs
@@ -19,6 +21,7 @@ namespace Bloggie.Web.Pages.Admin.Blogs
         [BindProperty]
         public IFormFile FeaturedImage { get; set; }
         [BindProperty]
+        [Required]
         public string Tags { get; set; }
         public AddModel(IBlogPostRepository blogPostRepository)
         {
@@ -29,6 +32,11 @@ namespace Bloggie.Web.Pages.Admin.Blogs
         }
         public async Task<IActionResult> OnPost()
         {
+            ValidateAddBlogPost();
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
             var blogPost = new BlogPost()
             {
                 Heading = AddBlogPostRequest.Heading,
@@ -54,6 +62,14 @@ namespace Bloggie.Web.Pages.Admin.Blogs
             TempData["Notification"] = JsonSerializer.Serialize(notification);
 
             return RedirectToPage("/Admin/Blogs/List");
+        }
+        private void ValidateAddBlogPost()
+        {
+            if (AddBlogPostRequest.PublishedDate.Date > DateTime.Now)
+            {
+                ModelState.AddModelError("AddBlogPostRequest.PublishedDate",
+                    $"{nameof(AddBlogPostRequest.PublishedDate)} can only be past or present day");
+            }
         }
 
     }
